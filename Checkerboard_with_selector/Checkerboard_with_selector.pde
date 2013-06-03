@@ -56,6 +56,7 @@ void draw () {
   for (int i = 0; i<count;i++) {
     checkers[i].display();
     checkers [i].check();
+    checkers[i].move();
   }
 }
 
@@ -89,32 +90,42 @@ class Cell {
 
 class Checker {
   float x, y;
-  float w, h;
+  float d;
   color c;
+  color basecolor;
+  color highlightcolor;
 
   Checker (float tx, float ty) {
     x=tx;
     y=ty;
-    w=(600)/cols;
-    h=(height)/rows;
+    d=75;
     if (y<height/2) {
-      c=color (255, 0, 0);
+      basecolor=color (255, 0, 0);
     }
     else {
-      c=color (0, 0, 255);
+      basecolor=color (0, 0, 255);
     }
+    c=basecolor;
+    highlightcolor= color(0,255,0);
   }
 
   void display () {
     fill (c);
-    ellipse(x+w/2, y+h/2, w, h);
+    ellipse(x+d/2, y+d/2, d, d);
   }
   void check () {
-    if ((dist(x,y,mouseX,mouseY)<w/2+h/2)&&mousePressed) {
-      print("KAITLIN AND THE CHANSTERS");
-      c=color (0,255,0);
+    if (mousePressed) {
+      if (dist(x+d/2,y+d/2,mouseX,mouseY)<d/2) {
+        c=highlightcolor;
+      }
+      else {
+        c=basecolor;
+      }
     }
-    else {}
+  }
+  void move () {
+    if (mousePressed&&c==highlightcolor) {
+      
   }
 }
 
