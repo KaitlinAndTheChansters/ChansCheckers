@@ -74,7 +74,6 @@ class Cell {
     y=ty;
     w=tw;
     h=th;
-    }
   }
 
   void display() {
@@ -89,7 +88,7 @@ class Cell {
     }
     rect(x, y, w, h);
   }
-  
+
   boolean check(int mx, int my) {
     if (mx>x && mx<x+w && my>y && my<y+h) {
       return true;
@@ -98,6 +97,7 @@ class Cell {
       return false;
     }
   }
+}
 
 
 
@@ -159,4 +159,5 @@ class Checker {
     }
   }
 }
+
 

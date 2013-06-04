@@ -68,28 +68,32 @@ class Cell {
   float x, y;
   float w, h;
   color basecolor;
+  boolean colorcheck;
 
   Cell (float tx, float ty, float tw, float th) {
     x=tx;
     y=ty;
     w=tw;
     h=th;
+    if (x%2==0 && y%2>0) {
+      basecolor=color(0);
+      colorcheck=true;
+    } 
+    else if (x%2>0 && y%2==0) {
+      basecolor=color(0);
+      colorcheck=true;
+    }
+    else {
+      basecolor=color(255);
+      colorcheck=false;
     }
   }
 
   void display() {
-    if (x%2==0 && y%2>0) {
-      fill(0);
-    } 
-    else if (x%2>0 && y%2==0) {
-      fill (0);
-    }
-    else {
-      fill (255);
-    }
+    fill(basecolor);
     rect(x, y, w, h);
   }
-  
+
   boolean check(int mx, int my) {
     if (mx>x && mx<x+w && my>y && my<y+h) {
       return true;
@@ -98,6 +102,7 @@ class Cell {
       return false;
     }
   }
+}
 
 
 
@@ -143,11 +148,11 @@ class Checker {
     if (mousePressed&&selected==true) {
       for (int i = 0; i < cols; i++) {
         for (int j = 0; j < rows; j++) {
-          if (board[i][j].check(mouseX, mouseY)&&basecolor==color(255, 0, 0)&&mouseY>y) {
+          if (board[i][j].check(mouseX, mouseY)&&basecolor==color(255, 0, 0)&&mouseY>y&&board[i][j].colorcheck==false) {
             x=board[i][j].x;
             y=board[i][j].y;
           }
-          if (board[i][j].check(mouseX, mouseY)&&basecolor==color(0, 0, 255)&&mouseY<y) {
+          if (board[i][j].check(mouseX, mouseY)&&basecolor==color(0, 0, 255)&&mouseY<y&&board[i][j].colorcheck==false) {
             x=board[i][j].x;
             y=board[i][j].y;
           }
