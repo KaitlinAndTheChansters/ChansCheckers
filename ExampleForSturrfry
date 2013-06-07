@@ -1,0 +1,83 @@
+    int cols = 8;
+    int rows = 8;
+    Grid[][] board = new Grid[cols][rows];
+    ArrayList<Checker> checkers = new ArrayList<Checker>();
+    
+    void setup() {
+      size(500, 500);
+      for (int x = 0; x< cols; x++) {
+        for (int y = 0; y < rows; y++) {
+          board[x][y] = new Grid((width/cols/2)+(width/cols)*x, (height/rows/2)+(height/cols)*y);
+    
+          if ((y%2==0 && x%2 == 0)||(y%2==1 && x%2 == 1)) {
+            if (y<=2) {
+              checkers.add(new Checker(board[x][y], color(255, 0, 0)));
+            }
+            if (y>=5) {
+              checkers.add(new Checker(board[x][y], color(0, 0, 255)));
+            }
+          }
+        }
+      }
+    }
+    void draw() {
+      for (int x = 0; x < cols; x++) {
+        for (int y = 0; y < rows; y++) {
+    
+          board[x][y].display();
+          board[x][y].occupied=false;
+        }
+      }
+      for (int i = 0; i < checkers.size(); i++) {
+        Checker c = checkers.get(i);
+        c.display();
+        for (int x = 0; x < cols; x++) {
+          for (int y = 0; y < rows; y++) {
+            board[x][y].isOccupied(c);
+          }
+        }
+      }
+    }
+    
+    class Grid {
+      int x, y;
+      int w, h;
+      boolean occupied;
+      Grid(int tx, int ty) {
+        x=tx;
+        y=ty;
+        w=width/8;
+        h=height/8;
+        occupied=false;
+      }
+      void display() {
+        rectMode(CENTER);
+        fill(255);
+        if (occupied) {
+          fill(random(255));
+        }
+        rect(x, y, w, h);
+      }
+      void isOccupied(Checker c) {
+        if (x==c.x && y == c.y) {
+          occupied=true;
+        } 
+      }
+    }
+    
+    class Checker {
+      int x, y;
+      float d;
+      color c;
+    
+      Checker(Grid g, color tc) {
+        x=g.x;
+        y=g.y;
+        d=min(g.w, g.h)*.9;
+        c=tc;
+      }
+      void display() {
+        fill(c);
+        ellipse(x, y, d, d);
+      }
+    }
