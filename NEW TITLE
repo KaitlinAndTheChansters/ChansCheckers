@@ -1,0 +1,21 @@
+JUST KIDDING THIS IS THE NEW TITLE SCREEN BECAUSE STURR CHANGED STUFF. (THANKS >_>)
+
+void setup () {
+  size (600,600);
+  background (124, 195, 255);
+  fill (0);
+  textSize (50);
+  text ("Chan's Checkers!", 100, height/3);
+}
+
+void draw () {
+  strokeWeight (5);
+  fill (255,0,0);
+  rect (65, height-300, 200, 100);
+  fill (0,0,255);
+  rect (width/2-20, height-300, 300, 100);
+  fill (0);
+  textSize (50);
+  text ("Start", 100, height-230);
+  text ("Instructions", width/2-10, height-230);
+}
