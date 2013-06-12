@@ -6,6 +6,7 @@ class Checker {
   color highlightcolor;
   boolean selected;
   boolean king;
+  boolean isDead;
 
   Checker (float tx, float ty) {
     x=tx;
@@ -46,6 +47,22 @@ class Checker {
       }
     }
   }
+  void checkisdead() {
+    for (int i = 0; i < cols-1; i++) {
+      for (int j = 0; j < rows-1; j++) {
+        for (int k = count - 1; k>0; k--) {
+          Checker c = checkers.get(k);
+
+          if (c.x==board[i+1][j+1].x&&c.y==board[i+1][j+1].y) {
+            isDead=true;
+          }
+          else {
+            isDead=false;
+          }
+        }
+      }
+    }
+  }
 
   void movered () {
     if (mousePressed&&selected==true) {
@@ -59,30 +76,33 @@ class Checker {
             if (y!=board[7][7].y&&(mouseY>y&&mouseY<y+225)) {
               println("selected");
               if (board[i][j].occupiedstate()==false&&king==false) {
+                selected=false;
                 x=board[i][j].x;
                 y=board[i][j].y;    
-                setup();
-                selected=false;
+                reset();
               }
-              else if (board[i][j].x<=400) {
-                println("HEY I'M RUNNING!");
+              if (board[i][j].x<=400) {
+                println("HEY I'M RUNNING RIGHT!");
                 if (board[i+1][j+1].occupiedstate()==true) {
-                  println("STILL GOING");
+                  println("STILL GOING RIGHT");
                   if (board[i+2][j+2].occupiedstate()==false) {
                     print("DO YOU WANNA JUMP RIGHT?");
+                    selected=false;
                     x=board[i+2][j+2].x;
                     y=board[i+2][j+2].y;
-                    noLoop();
+                    isDead=true;
                   }
                 }
               }
-              else if (board[i][j].x>=300) {
+              if (board[i][j].x>=200&&board[i][j].y<=600) {
+                println("HEY I'M RUNNING LEFT!");
                 if (board[i-1][j+1].occupiedstate()==true) {
+                  println("STILL GOING LEFT");
                   if (board[i-2][j+2].occupiedstate()==false) {
+                    selected=false;
                     print("DO YOU WANNA JUMP LEFT?");
                     x=board[i-2][j+2].x;
                     y=board[i-2][j+2].y;
-                    noLoop();
                   }
                 }
               }
@@ -92,11 +112,11 @@ class Checker {
             else if (y==board[7][7].y||king==true) {
               basecolor=color(255, 0, 255);
               if (board[i][j].occupiedstate()==false) {
+                selected=false;
                 king=true;
                 x=board[i][j].x;
                 y=board[i][j].y;    
-                setup();
-                selected=false;
+                reset();
               }
             }
           }
@@ -112,20 +132,49 @@ class Checker {
       for (int i = 0; i < cols; i++) {
         for (int j = 0; j < rows; j++) {
           if (board[i][j].check(mouseX, mouseY)&&(basecolor==color(0, 0, 255)||basecolor==color(0, 255, 255))&&(mouseX<x+225&&mouseX>x-125)&&board[i][j].colorcheck==false&&mouseButton==LEFT) {        
-            if (y==board[0][0].y||king==true) {
-              basecolor=color(0, 255, 255);
-              if (board[i][j].occupiedstate()==false) {
-                king=true;
+            if (y!=board[0][0].y&&(mouseY<y&&mouseY>y-225)&&king==false) {
+              if (board[i][j].occupiedstate()==false&&king==false) {
+                selected=false;
                 x=board[i][j].x;
                 y=board[i][j].y;    
-                setup();
+                reset();
               }
-            }
-            else if (y!=board[0][0].y&&(mouseY<y&&mouseY>y-225)&&king==false) {
-              if (board[i][j].occupiedstate()==false) {
-                x=board[i][j].x;
-                y=board[i][j].y;    
-                setup();
+              if (board[i][j].x<=400&&board[i][j].y<600) {
+                println("HEY I'M RUNNING RIGHT!");
+                if (board[i+1][j-1].occupiedstate()==true) {
+                  println("STILL GOING RIGHT");
+                  if (board[i+2][j-2].occupiedstate()==false) {
+                    selected=false;
+                    print("DO YOU WANNA JUMP RIGHT?");
+                    x=board[i+2][j-2].x;
+                    y=board[i+2][j-2].y;
+                    isDead=true;
+                  }
+                }
+              }
+              if (board[i][j].x>=200) {
+                println("HEY I'M RUNNING LEFT!");
+                if (board[i-1][j-1].occupiedstate()==true) {
+                  println("STILL GOING LEFT");
+                  if (board[i-2][j-2].occupiedstate()==false) {
+                    selected=false;
+                    print("DO YOU WANNA JUMP LEFT?");
+                    x=board[i-2][j-2].x;
+                    y=board[i-2][j-2].y;
+                    isDead=true;
+                  }
+                }
+              }
+
+              else if (y==board[0][0].y||king==true) {
+                basecolor=color(0, 255, 255);
+                if (board[i][j].occupiedstate()==false) {
+                  king=true;
+                  x=board[i][j].x;
+                  y=board[i][j].y;    
+                  reset();
+                  selected=false;
+                }
               }
             }
           }
