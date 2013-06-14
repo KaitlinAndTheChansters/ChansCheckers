@@ -28,6 +28,9 @@ class Cell {
   //displays grid
   void display() {
     fill(basecolor);
+//    if (occupied) {
+//      basecolor=color(255,255,0);
+//    }
     rect(x, y, w, h);
   }
   //checks to see where mouse is
