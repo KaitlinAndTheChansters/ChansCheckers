@@ -141,7 +141,7 @@ void winner () {
     //      print("BLUE WINS");
     winner=true;
   }
-  if (checkers2.size()==1) {
+  if (checkers2.size()==0) {
     textSize(100);
     fill(255, 0, 0);
     text("RED WINS", width/10, height/2);
